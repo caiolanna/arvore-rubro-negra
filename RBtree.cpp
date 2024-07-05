@@ -268,6 +268,7 @@ void removeNode(Node*& root, int iData)
     Node* x;
     Color originalColor = Aux->color;
 
+    //Garante que o nó nao tem os dos filhos.
     if (nodeToRemove->ptrLeft == nullptr) 
     {
         x = nodeToRemove->ptrRight;
@@ -280,6 +281,7 @@ void removeNode(Node*& root, int iData)
     } 
     else 
     {
+        //caso em que tem os 2 filhos.
         Aux = lesserLeaf(nodeToRemove->ptrRight);
         originalColor = Aux->color;
         x = Aux->ptrRight;
@@ -301,86 +303,13 @@ void removeNode(Node*& root, int iData)
         Aux->ptrLeft->ptrParent = Aux;
         Aux->color = nodeToRemove->color;
     }
-
+    //libera memória.
     free(nodeToRemove);
 
     if (originalColor == BLACK && x != nullptr)
-        corrigeRemove(root, x);
+        corrigeInsert(root, x);
 }
 
-void corrigeRemove(Node*& root, Node*& x)
-{
-    while (x != root && x->color == BLACK) 
-    {
-        if (x == x->ptrParent->ptrLeft) 
-        {
-            Node* w = x->ptrParent->ptrRight;
-            if (w->color == RED) 
-            {
-                w->color = BLACK;
-                x->ptrParent->color = RED;
-                rotateLeft(root, x->ptrParent);
-                w = x->ptrParent->ptrRight;
-            }
-            if ((w->ptrLeft == nullptr || w->ptrLeft->color == BLACK) &&
-                (w->ptrRight == nullptr || w->ptrRight->color == BLACK)) 
-            {
-                w->color = BLACK;
-                x = x->ptrParent;
-            } 
-            else 
-            {
-                if (w->ptrRight == nullptr || w->ptrRight->color == BLACK) 
-                {
-                    w->ptrLeft->color = BLACK;
-                    w->color = RED;
-                    rotateRight(root, w);
-                    w = x->ptrParent->ptrRight;
-                }
-                w->color = x->ptrParent->color;
-                x->ptrParent->color = BLACK;
-                if (w->ptrRight != nullptr)
-                    w->ptrRight->color = BLACK;
-                rotateLeft(root, x->ptrParent);
-                x = root;
-            }
-        } 
-        else 
-        {
-            Node* w = x->ptrParent->ptrLeft;
-            if (w->color == RED) 
-            {
-                w->color = BLACK;
-                x->ptrParent->color = RED;
-                rotateRight(root, x->ptrParent);
-                w = x->ptrParent->ptrLeft;
-            }
-            if ((w->ptrLeft == nullptr || w->ptrLeft->color == BLACK) &&
-                (w->ptrRight == nullptr || w->ptrRight->color == BLACK)) 
-            {
-                w->color = BLACK;
-                x = x->ptrParent;
-            } 
-            else 
-            {
-                if (w->ptrLeft == nullptr || w->ptrLeft->color == BLACK) 
-                {
-                    w->ptrRight->color = BLACK;
-                    w->color = RED;
-                    rotateLeft(root, w);
-                    w = x->ptrParent->ptrLeft;
-                }
-                w->color = x->ptrParent->color;
-                x->ptrParent->color = BLACK;
-                if (w->ptrLeft != nullptr)
-                    w->ptrLeft->color = BLACK;
-                rotateRight(root, x->ptrParent);
-                x = root;
-            }
-        }
-    }
-    x->color = BLACK;
-}
 
 void transplantaNode(Node*& root, Node* u, Node* v)
 {

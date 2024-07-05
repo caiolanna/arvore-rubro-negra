@@ -26,7 +26,6 @@ Node* searchNode(Node*, int);
 int treeHeight(Node*);
 
 void removeNode(Node*&, int);
-void corrigeRemove(Node*&, Node*&);
 Node* substituiNode(Node*, Node*);
 void transplantaNode(Node*&, Node*, Node*);
 

@@ -9,7 +9,7 @@ using namespace std::chrono;
 int main()
 {
     
-    /*
+    
     //Exemplo 1, com insertNodeDESBALANCEADO
     Node* root = nullptr;
     
@@ -75,7 +75,7 @@ int main()
     
     cout << "=================================================================" << endl;
    
-    */
+    
     
     cout << "=================================================================" << endl;
    
