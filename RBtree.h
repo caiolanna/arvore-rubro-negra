@@ -11,9 +11,10 @@ typedef struct Node
     Color color;
 } Node;
 
+Node* insertNodeDESBALANCEADO(Node*, int);
 Node* createNode(int);
 Node* insertNode(Node*, int);
-void traversePreOrder(Node*);
+void traverseInOrder(Node*);
 
 void rotateRight(Node*&, Node*&);
 void rotateLeft(Node*&, Node*&);
@@ -23,4 +24,6 @@ Node* lesserLeaf(Node*);
 Node* biggerLeaf(Node*);
 Node* searchNode(Node*, int);
 int treeHeight(Node*);
+
+int fibonacci(int);
 

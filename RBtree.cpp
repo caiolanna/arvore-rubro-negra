@@ -66,13 +66,13 @@ Node* insertNode(Node* root, int iData)
 
 
 //travessia inorder com recursão.
-void traversePreOrder(Node* ptrStartingNode)
+void traverseInOrder(Node* ptrStartingNode)
 {
     if (ptrStartingNode != nullptr)
     {
-        traversePreOrder(ptrStartingNode->ptrLeft);
+        traverseInOrder(ptrStartingNode->ptrLeft);
         cout << " " << ptrStartingNode->iPayload;
-        traversePreOrder(ptrStartingNode->ptrRight);
+        traverseInOrder(ptrStartingNode->ptrRight);
     }
 }
 
@@ -83,19 +83,19 @@ Node* lesserLeaf(Node* startingNode)
 {
     Node* ptrCurrent = startingNode;
     
-    //Caminha na árvore inso pra esquerda
+    //Caminha na árvore indo pra esquerda
     while (ptrCurrent && ptrCurrent->ptrLeft != nullptr) ptrCurrent = ptrCurrent->ptrLeft;
     
     cout << "O menor nó é : " << ptrCurrent->iPayload << endl;
     return ptrCurrent;
 }
 
-//Encontrar o nó mínimo.
+//Encontrar o nó maximo.
 Node* biggerLeaf(Node* startingNode)
 {
     Node* ptrCurrent = startingNode;
  
-    //Caminha na árvore inso pra direita.
+    //Caminha na árvore indo pra direita.
     while (ptrCurrent && ptrCurrent->ptrRight != nullptr) ptrCurrent = ptrCurrent->ptrRight;
     
     cout << "O maior nó é : " << ptrCurrent->iPayload << endl;
@@ -237,6 +237,26 @@ void corrigeInsert(Node*& root, Node*& modifiedNode)
     root->color = BLACK; //A raiz é sempre preta.
 }
 
+
+
+Node* insertNodeDESBALANCEADO(Node* startingNode, int iData)
+{
+    if(startingNode == nullptr)
+    {
+        return createNode(iData);
+    }
+    
+    if(iData < startingNode->iPayload)
+    {
+        startingNode->ptrLeft = insertNodeDESBALANCEADO(startingNode->ptrLeft, iData);
+    }
+    else
+    {
+        startingNode->ptrRight = insertNodeDESBALANCEADO(startingNode->ptrRight, iData);
+    }
+    
+    return startingNode;
+}
 
 
 
