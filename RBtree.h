@@ -25,5 +25,8 @@ Node* biggerLeaf(Node*);
 Node* searchNode(Node*, int);
 int treeHeight(Node*);
 
-int fibonacci(int);
+void removeNode(Node*&, int);
+void corrigeRemove(Node*&, Node*&);
+Node* substituiNode(Node*, Node*);
+void transplantaNode(Node*&, Node*, Node*);
 

@@ -238,7 +238,7 @@ void corrigeInsert(Node*& root, Node*& modifiedNode)
 }
 
 
-
+//função antiga que foi feita em sala pra inserir no em uma arvore.
 Node* insertNodeDESBALANCEADO(Node* startingNode, int iData)
 {
     if(startingNode == nullptr)
@@ -257,6 +257,153 @@ Node* insertNodeDESBALANCEADO(Node* startingNode, int iData)
     
     return startingNode;
 }
+
+void removeNode(Node*& root, int iData)
+{
+    Node* nodeToRemove = searchNode(root, iData);
+    if (nodeToRemove == nullptr)
+        return;
+
+    Node* Aux = nodeToRemove;
+    Node* x;
+    Color originalColor = Aux->color;
+
+    if (nodeToRemove->ptrLeft == nullptr) 
+    {
+        x = nodeToRemove->ptrRight;
+        transplantaNode(root, nodeToRemove, nodeToRemove->ptrRight);
+    } 
+    else if (nodeToRemove->ptrRight == nullptr) 
+    {
+        x = nodeToRemove->ptrLeft;
+        transplantaNode(root, nodeToRemove, nodeToRemove->ptrLeft);
+    } 
+    else 
+    {
+        Aux = lesserLeaf(nodeToRemove->ptrRight);
+        originalColor = Aux->color;
+        x = Aux->ptrRight;
+
+        if (Aux->ptrParent == nodeToRemove)
+        {
+            if (x != nullptr)
+                x->ptrParent = Aux;
+        } 
+        else 
+        {
+            transplantaNode(root, Aux, Aux->ptrRight);
+            Aux->ptrRight = nodeToRemove->ptrRight;
+            Aux->ptrRight->ptrParent = Aux;
+        }
+
+        transplantaNode(root, nodeToRemove, Aux);
+        Aux->ptrLeft = nodeToRemove->ptrLeft;
+        Aux->ptrLeft->ptrParent = Aux;
+        Aux->color = nodeToRemove->color;
+    }
+
+    free(nodeToRemove);
+
+    if (originalColor == BLACK && x != nullptr)
+        corrigeRemove(root, x);
+}
+
+void corrigeRemove(Node*& root, Node*& x)
+{
+    while (x != root && x->color == BLACK) 
+    {
+        if (x == x->ptrParent->ptrLeft) 
+        {
+            Node* w = x->ptrParent->ptrRight;
+            if (w->color == RED) 
+            {
+                w->color = BLACK;
+                x->ptrParent->color = RED;
+                rotateLeft(root, x->ptrParent);
+                w = x->ptrParent->ptrRight;
+            }
+            if ((w->ptrLeft == nullptr || w->ptrLeft->color == BLACK) &&
+                (w->ptrRight == nullptr || w->ptrRight->color == BLACK)) 
+            {
+                w->color = BLACK;
+                x = x->ptrParent;
+            } 
+            else 
+            {
+                if (w->ptrRight == nullptr || w->ptrRight->color == BLACK) 
+                {
+                    w->ptrLeft->color = BLACK;
+                    w->color = RED;
+                    rotateRight(root, w);
+                    w = x->ptrParent->ptrRight;
+                }
+                w->color = x->ptrParent->color;
+                x->ptrParent->color = BLACK;
+                if (w->ptrRight != nullptr)
+                    w->ptrRight->color = BLACK;
+                rotateLeft(root, x->ptrParent);
+                x = root;
+            }
+        } 
+        else 
+        {
+            Node* w = x->ptrParent->ptrLeft;
+            if (w->color == RED) 
+            {
+                w->color = BLACK;
+                x->ptrParent->color = RED;
+                rotateRight(root, x->ptrParent);
+                w = x->ptrParent->ptrLeft;
+            }
+            if ((w->ptrLeft == nullptr || w->ptrLeft->color == BLACK) &&
+                (w->ptrRight == nullptr || w->ptrRight->color == BLACK)) 
+            {
+                w->color = BLACK;
+                x = x->ptrParent;
+            } 
+            else 
+            {
+                if (w->ptrLeft == nullptr || w->ptrLeft->color == BLACK) 
+                {
+                    w->ptrRight->color = BLACK;
+                    w->color = RED;
+                    rotateLeft(root, w);
+                    w = x->ptrParent->ptrLeft;
+                }
+                w->color = x->ptrParent->color;
+                x->ptrParent->color = BLACK;
+                if (w->ptrLeft != nullptr)
+                    w->ptrLeft->color = BLACK;
+                rotateRight(root, x->ptrParent);
+                x = root;
+            }
+        }
+    }
+    x->color = BLACK;
+}
+
+void transplantaNode(Node*& root, Node* u, Node* v)
+{
+    //verifica se é a raiz
+    if (u->ptrParent == nullptr)
+    {
+        root = v;
+    }
+    else if (u == u->ptrParent->ptrLeft)
+    {
+        u->ptrParent->ptrLeft = v;
+    }
+    else
+    {
+        u->ptrParent->ptrRight = v;
+    }
+    if (v != nullptr)
+    {
+        v->ptrParent = u->ptrParent;
+    }
+}
+
+
 
 
 

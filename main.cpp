@@ -9,6 +9,7 @@ using namespace std::chrono;
 int main()
 {
     
+    /*
     //Exemplo 1, com insertNodeDESBALANCEADO
     Node* root = nullptr;
     
@@ -74,10 +75,30 @@ int main()
     
     cout << "=================================================================" << endl;
    
-  
-    //traverseInOrder(root);
-
+    */
+    
+    cout << "=================================================================" << endl;
    
+    Node* root_3 = nullptr;
+    
+    root_3 = insertNode(root_3, 40);
+    root_3 = insertNode(root_3, 10);
+    root_3 = insertNode(root_3, 0);
+    root_3 = insertNode(root_3, 5);
+    root_3 = insertNode(root_3, 3);
+    root_3 = insertNode(root_3, 4);
+    root_3 = insertNode(root_3, 1);
+    
+    
+    cout << "traverseInOrder antes de remover o no 40" << endl;
+    traverseInOrder(root_3);
+    cout << endl;
+    removeNode(root_3, 40);
+    
+    cout << "traverseInOrder depois de remover o no 40" << endl;
+    traverseInOrder(root_3);
+    cout << endl;
+    cout << "=================================================================" << endl;
     return 0;
 }
 
