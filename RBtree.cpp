@@ -57,8 +57,9 @@ Node* insertNode(Node* root, int iData)
         ParentTemp->ptrLeft = newNode;
     else
         ParentTemp->ptrRight = newNode;
-
-    corrigeInsert(root, newNode);
+    
+    
+    corrigeInsert(root, newNode);  // FUNÇÃO QUE CORRIGE A INSERÇÃO PARA NAO QUEBRAR AS REGRAS DA RBtree.
     return root;
 
 } 
